@@ -54,9 +54,7 @@ module Lita
 
         def register_app_handlers
           Lita::Handler.handlers.each do |handler|
-					#unless handler.disabled?
 						Lita.register_handler(handler)
-					#end
           end
         end
 

@@ -40,14 +40,14 @@ module Lita
         @config_options ||= []
       end
 
-      def default_config(default)
+      def config(default)
         config_options.each do |config_option|
           default[config_option.name] = config_option.default
         end
       end
 
       def disabled?
-        Lita.config.disabled and Lita.config.disabled.include?(namespace.to_sym)
+        Lita.config.disabled.include?(namespace.to_sym)
       end
     end
   end

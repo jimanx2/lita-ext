@@ -16,16 +16,18 @@ module Lita
 
   module Ext
     class Core
+		
       class << self
         def call(payload)
           chdir_to_lita_root
           load_dotenv
           add_lib_to_load_path
 					load_environment_config
-          load_initializers
-          load_app_handlers
-          register_app_handlers
-        end
+					load_models
+					load_initializers
+					load_app_handlers
+					register_app_handlers
+				end
 
         private
 
@@ -33,6 +35,11 @@ module Lita
           Dir.chdir(Lita.root)
         end
 
+				def load_models
+					models = "#{Lita.root}/app/models/**/*.rb"
+          Dir.glob(models).each { |model| require model }
+				end
+				
         def load_dotenv
           Dotenv.load ".env.#{Lita.env}", '.env'
         end

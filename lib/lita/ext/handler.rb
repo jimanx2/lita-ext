@@ -3,6 +3,8 @@ require 'lita/handler'
 
 module Lita
   class Handler
+		config :disabled, required: false, default: false
+		
     def config_valid?
       valid = true
       self.class.config_options.each do |config_option|
@@ -32,22 +34,27 @@ module Lita
         @handlers ||= []
       end
 
-      def config(name, required: true, default: nil)
-        config_options << ConfigOption.new(name, required, default)
+      def config(*args)
+				case args.length
+				when 2;
+					name = args[0]
+					required = args[1][:required]
+					default = args[1][:required]
+					config_options << ConfigOption.new(name, required, default)
+				when 1;
+					default = args[0]
+					config_options.each do |config_option|
+						default[config_option.name] = config_option.default
+					end
+				end
       end
 
       def config_options
         @config_options ||= []
       end
 
-      def config(default)
-        config_options.each do |config_option|
-          default[config_option.name] = config_option.default
-        end
-      end
-
       def disabled?
-        Lita.config.disabled.include?(namespace.to_sym)
+				config_options.respond_to?(:disabled) && config_options.disabled
       end
     end
   end

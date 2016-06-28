@@ -23,8 +23,8 @@ module Lita
           load_dotenv
           add_lib_to_load_path
 					load_environment_config
-					load_models
 					load_initializers
+					load_models
 					load_app_handlers
 					register_app_handlers
 				end
@@ -61,7 +61,7 @@ module Lita
 
         def register_app_handlers
           Lita::Handler.handlers.each do |handler|
-						Lita.register_handler(handler)
+						Lita.register_handler(handler) unless handler.disabled?
           end
         end
 

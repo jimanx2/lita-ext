@@ -48,8 +48,10 @@ class Lita::Robot
 		end
 		
 		unless metadata.nil?
-			message.update("@body", "#{metadata["next"]} #{message.body}")
-			message.update("@metadata", metadata)
+		    if metadata.key?("expect") and message.body.match(metadata["expect"])
+			      message.update("@body", "#{metadata["next"]} #{message.body}")
+			      message.update("@metadata", metadata)
+			end
 		end
 		
 		trigger(:message_received, message: message)

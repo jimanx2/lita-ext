@@ -48,9 +48,9 @@ class Lita::Robot
 		end
 		
 		unless metadata.nil?
-		    if metadata.key?("expect") and message.body.match(Regexp.new(metadata["expect"]))
-			      message.update("@body", "#{metadata["next"]} #{message.body}")
-			      message.update("@metadata", metadata)
+		  if metadata.key?("expect") and message.body.match(Regexp.new(metadata["expect"]))
+				message.update("@body", "#{metadata["next"]} #{message.body}")
+				message.update("@metadata", metadata)
 			end
 		end
 		
